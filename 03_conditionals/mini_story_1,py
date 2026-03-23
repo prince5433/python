@@ -1,0 +1,5 @@
+kettle_boiled = True
+
+if kettle_boiled:               # Condition → True/False honi chahiye
+    print("Kettle done!")       # ← Indentation zaroori (4 spaces)
+    print("Time to make chai")
