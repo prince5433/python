@@ -565,3 +565,344 @@ print(unique_spices)
 
 Based on transcript 
 
+
+# 📘 Dictionary Comprehension in Python
+
+---
+
+## 📌 Introduction
+
+* Comprehensions ka next step → **Dictionary Comprehension**
+* Ye dictionaries ko deeply samajhne me help karta hai
+* Concept simple hai, bas ek difference samajhna hai
+
+---
+
+# 🧠 Key Concept
+
+* Set aur Dictionary dono `{}` use karte hain
+
+👉 Difference:
+
+* Agar expression me sirf value → set
+* Agar expression me **key:value pair** → dictionary
+
+---
+
+# 🧠 Important Idea
+
+* Expression decide karta hai:
+
+  * set banega ya dictionary
+
+👉 Key + value pair → dictionary
+
+---
+
+# 🛠️ Example Setup
+
+## 🧾 Tea Prices (INR)
+
+```python id="a1m9vx"
+tea_prices = {
+    "masala chai": 40,
+    "green tea": 50,
+    "lemon tea": 200
+}
+```
+
+---
+
+## 🎯 Goal
+
+👉 Sab prices ko INR → USD convert karna
+
+* Conversion: divide by 80
+
+---
+
+# 🧠 Approach
+
+* New dictionary banana padega
+* Comprehension use karenge
+
+---
+
+# 🛠️ Loop Setup
+
+```python id="k5p2rt"
+for tea, price in tea_prices.items()
+```
+
+---
+
+## 🧠 Concept
+
+* `.items()`:
+
+  * key + value dono deta hai
+* `tea` → key
+* `price` → value
+
+---
+
+# 🛠️ Dictionary Comprehension
+
+```python id="n5k9rt"
+tea_prices_usd = {tea: price/80 for tea, price in tea_prices.items()}
+```
+
+---
+
+## 🧠 Expression
+
+```python id="z6p3mv"
+tea: price/80
+```
+
+👉 Key = tea
+👉 Value = converted price
+
+---
+
+## 🖨️ Print
+
+```python id="x2d7qs"
+print(tea_prices_usd)
+```
+
+---
+
+## ▶️ Output
+
+* masala chai → 0.5
+* green tea → 0.625
+* lemon tea → 2.5
+
+---
+
+# 🔍 Important Observations
+
+* Direct `tea_prices` iterate nahi kar sakte
+* `.keys()` ya `.values()` alag-alag deta hai
+* `.items()` se dono milte hain
+
+---
+
+# 🧠 Key Idea
+
+👉 Comprehension ko samajhne ka best way:
+
+* Pehle **for loop padho**
+* Fir **expression samjho**
+
+---
+
+# 📌 Meaning in Simple Words
+
+* Har tea ke liye
+* Uska price lo
+* Divide by 80
+* New dictionary me store karo
+
+---
+
+# 📌 Key Points
+
+* `{}` use hota hai
+* Expression me key:value hona chahiye
+* `.items()` important hai
+* Expression me transformation hota hai
+* Code short + clean ho jata hai
+
+---
+
+## 📎 Source
+
+Based on transcript 
+
+# ⚡ Generator Comprehension in Python
+
+---
+
+## 📌 Introduction
+
+* Final type of comprehension → **Generator Comprehension**
+* Ye generators ka intro hai
+* Main purpose → **memory save karna**
+
+---
+
+## 🧠 Important Idea
+
+* Generators ka main use:
+  👉 **memory efficient code likhna**
+
+* Large data (millions records) me useful hota hai
+
+* Good software engineer memory ka dhyaan rakhta hai
+
+---
+
+# 🧠 Key Concept
+
+* List comprehension → pura data memory me store karta hai
+* Generator → ek-ek value deta hai (stream ki tarah)
+
+---
+
+# 🧠 Syntax
+
+```python id="x8k3pl"
+(expression for item in iterable if condition)
+```
+
+---
+
+## 📌 Difference
+
+* List → `[]`
+* Generator → `()`
+
+👉 Bas bracket ka difference hai
+
+---
+
+# 🔁 Comparison
+
+## 🛠️ List Comprehension
+
+```python id="a1m9vx"
+[x for x in items]
+```
+
+👉 Entire list memory me ban jati hai
+
+---
+
+## 🛠️ Generator
+
+```python id="k5p2rt"
+(x for x in items)
+```
+
+👉 Ek-ek item generate hota hai
+
+---
+
+## 🧠 Concept
+
+* List → full data ek saath
+* Generator → stream (one by one)
+
+---
+
+# 📊 Example Setup
+
+## 🧾 Daily Sales
+
+```python id="n7d3qs"
+daily_sales = [5, 10, 12, 7, 3, 8, 9, 15]
+```
+
+---
+
+## 🎯 Goal
+
+👉 Sirf wo values chahiye:
+
+* jo **5 se badi ho**
+  👉 Unka total sum nikalna hai
+
+---
+
+# 🛠️ Generator Comprehension
+
+```python id="q1w7dv"
+(sale for sale in daily_sales if sale > 5)
+```
+
+---
+
+## 🧠 Observation
+
+* Direct print karoge → generator object milega
+* Ye list nahi hota
+
+---
+
+## 🖨️ Output Type
+
+👉 Generator object
+
+* Direct usable nahi
+* Consume karna padta hai
+
+---
+
+# 🔁 Using List Instead
+
+```python id="y4t8qs"
+[sale for sale in daily_sales if sale > 5]
+```
+
+👉 Ye list return karega
+
+---
+
+# ⚡ Best Use (Important)
+
+## 🛠️ Using sum()
+
+```python id="h9m2zx"
+sum(sale for sale in daily_sales if sale > 5)
+```
+
+---
+
+## 🧠 Concept
+
+* Generator → values ek-ek karke deta hai
+* `sum()` → unhe process karta hai
+
+👉 Memory efficient
+
+---
+
+# 🧠 Important Difference
+
+### List:
+
+* Full data memory me store
+* Heavy ho sakta hai
+
+---
+
+### Generator:
+
+* One-by-one data
+* Memory efficient
+* Stream jaisa behavior
+
+---
+
+# 📌 Key Points
+
+* Generator → `()` use karta hai
+* Memory save karta hai
+* Large data ke liye best
+* Direct print → generator object
+* `sum()` jaise functions ke saath useful
+
+---
+
+# 📌 Final Idea
+
+* List → fast access but heavy
+* Generator → slow access but memory efficient
+
+---
+
+## 📎 Source
+
+Based on transcript 
