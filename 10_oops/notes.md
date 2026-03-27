@@ -1911,3 +1911,424 @@ ChaiUtils.clean_ingredients(raw)
 ## 📎 Source
 
 Based on transcript 
+
+
+# 🏗️ Class Methods in Python
+
+---
+
+## 📌 Introduction
+
+* Static methods dekhe the last video me
+* Ab baat karenge **Class Methods** ki
+* Static methods initialization ke liye useful nahi hote
+
+---
+
+# 🧠 Problem
+
+* Python me:
+  👉 sirf **1 constructor (`__init__`)** hota hai
+
+👉 Multiple constructors directly possible nahi
+
+---
+
+## 🧠 Goal
+
+* Different ways se object create karna:
+
+  * Direct values
+  * Dictionary
+  * String
+
+---
+
+# 🧱 Example Class
+
+```python id="a1k9mz"
+class ChaiOrder:
+
+    def __init__(self, tea_type, sweetness, size):
+        self.tea_type = tea_type
+        self.sweetness = sweetness
+        self.size = size
+```
+
+---
+
+## 🧠 Concept
+
+* Constructor values assign karta hai
+* Standard object creation
+
+---
+
+# 🔁 Class Method (Dictionary Input)
+
+```python id="p4d8xy"
+@classmethod
+def from_dict(cls, order_data):
+    return cls(
+        order_data["tea_type"],
+        order_data["sweetness"],
+        order_data["size"]
+    )
+```
+
+---
+
+## 🧠 Concept
+
+* `cls` → class reference
+* `cls(...)` → constructor call
+* Dictionary se values extract ho rahi hain
+
+---
+
+# 🔁 Class Method (String Input)
+
+```python id="k7m2vx"
+@classmethod
+def from_string(cls, order_str):
+    tea_type, sweetness, size = order_str.split("-")
+    return cls(tea_type, sweetness, size)
+```
+
+---
+
+## 🧠 Concept
+
+* String split ho rahi hai
+* Values assign ho rahi hain
+* Constructor call ho raha hai
+
+---
+
+# 🧪 Object Creation
+
+---
+
+## 📦 From Dictionary
+
+```python id="z2p8qn"
+order1 = ChaiOrder.from_dict({
+    "tea_type": "masala",
+    "sweetness": "medium",
+    "size": "large"
+})
+```
+
+---
+
+## 📦 From String
+
+```python id="x2m9vx"
+order2 = ChaiOrder.from_string("ginger-low-small")
+```
+
+---
+
+## 📦 Normal Constructor
+
+```python id="n5k3rt"
+order3 = ChaiOrder("black", "low", "large")
+```
+
+---
+
+# 🧠 Concept
+
+* 3 ways se object create ho raha hai
+* But actual constructor same hi hai
+
+---
+
+# 🔍 **dict** Usage
+
+```python id="y8p2qs"
+print(order1.__dict__)
+```
+
+---
+
+## 🧠 Output
+
+* Object ke saare attributes dictionary form me milte hain
+
+---
+
+# ⚡ Static Method Comparison
+
+```python id="h9m2zx"
+@staticmethod
+def is_valid_size(size):
+    return size in ["small", "medium", "large"]
+```
+
+---
+
+## 🧠 Concept
+
+* Static method:
+
+  * class ya object pe depend nahi
+  * utility function hai
+
+---
+
+# 🔍 Usage
+
+```python id="q1w7dv"
+ChaiUtils.is_valid_size("medium")
+```
+
+---
+
+# 🔥 Difference (Important)
+
+---
+
+## 🧠 Class Method
+
+* `cls` use hota hai
+* Class pe operate karta hai
+* Object create kar sakta hai
+
+---
+
+## 🧠 Static Method
+
+* `self` / `cls` nahi hota
+* Independent utility function
+* Object create nahi karta
+
+---
+
+# 📌 Key Points
+
+* Python me 1 constructor hota hai
+* Class method → multiple creation ways deta hai
+* `@classmethod` decorator use hota hai
+* `cls` = class reference
+* Static method → utility functions
+* `__dict__` → object data show karta hai
+
+---
+
+# 🎯 Final Idea
+
+* Class method:
+  👉 constructor ko control karta hai
+
+* Static method:
+  👉 helper utility hota hai
+
+---
+
+## 📎 Source
+
+Based on transcript 
+
+
+# 🏷️ Property Decorators in Python
+
+---
+
+## 📌 Introduction
+
+* Topic: **Property Decorators**
+* Purpose: properties ko control karna
+
+---
+
+# 🧠 Problem
+
+* Normal property:
+
+  * koi bhi read kar sakta hai
+  * koi bhi update kar sakta hai
+
+👉 Example:
+
+* age = -10 bhi set ho sakta hai (invalid)
+
+---
+
+# 🎯 Goal
+
+* Property ko control karna:
+
+  * kaise read ho
+  * kaise update ho
+
+---
+
+# 🧱 Example Class
+
+```python id="a1k9mz"
+class TeaLeaf:
+
+    def __init__(self, age):
+        self._age = age
+```
+
+---
+
+## 🧠 Concept
+
+* `_age`:
+
+  * underscore → special meaning
+  * directly access nahi karna chahiye
+
+---
+
+# 🔁 Getter (Read Control)
+
+```python id="p4d8xy"
+@property
+def age(self):
+    return self._age + 2
+```
+
+---
+
+## 🧠 Concept
+
+* `@property`:
+
+  * method ko property bana deta hai
+* Value read karte waqt modify ho sakti hai
+
+---
+
+# 🔁 Setter (Write Control)
+
+```python id="k7m2vx"
+@age.setter
+def age(self, value):
+    if 1 <= value <= 5:
+        self._age = value
+    else:
+        raise ValueError("Tea leaf age must be between 1 and 5 years")
+```
+
+---
+
+## 🧠 Concept
+
+* Setter:
+
+  * value set karte waqt validation
+* Invalid value → error
+
+---
+
+# 🧪 Usage
+
+```python id="z2p8qn"
+leaf = TeaLeaf(2)
+print(leaf.age)
+```
+
+---
+
+## ▶️ Output
+
+* 4
+
+---
+
+## 🧠 Concept
+
+* Actual value = 2
+* Getter → +2 add kar raha hai
+
+---
+
+# 🔁 Update Value
+
+```python id="x2m9vx"
+leaf.age = 4
+print(leaf.age)
+```
+
+---
+
+## ▶️ Output
+
+* 6
+
+---
+
+## 🧠 Concept
+
+* Setter accept karta hai (valid range)
+* Getter modify karke return karta hai
+
+---
+
+# ❌ Invalid Case
+
+```python id="n5k3rt"
+leaf.age = 6
+```
+
+---
+
+## ▶️ Output
+
+* ValueError
+
+---
+
+## 🧠 Concept
+
+* Setter validation fail → error throw
+
+---
+
+# 🔍 Important Insight
+
+* Property call aise hota hai:
+
+  ```python
+  leaf.age
+  ```
+* But internally:
+  👉 method call ho raha hota hai
+
+---
+
+# 🧠 Key Terms
+
+* Getter → value read control
+* Setter → value write control
+* Property → dono ko combine karta hai
+
+---
+
+# 📌 Important Notes
+
+* `_age` → internal variable
+* `age` → controlled access
+* Getter & setter same name use karte hain
+* Validation possible hai
+* Error handling possible hai
+
+---
+
+# 🎯 Final Idea
+
+* Property decorators:
+  👉 data access control karte hain
+
+* Direct access ke bajaye:
+  👉 controlled access use hota hai
+
+---
+
+## 📎 Source
+
+Based on transcript 
