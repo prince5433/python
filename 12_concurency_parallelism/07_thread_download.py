@@ -23,7 +23,7 @@ urls = [
 start=time.time()
 
 # List to keep track of all thread objects
-threads = []
+threads = 
 
 # Create and start a separate thread for each URL
 for url in urls:

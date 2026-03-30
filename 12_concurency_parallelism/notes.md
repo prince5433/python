@@ -1424,3 +1424,494 @@ end = time.time()
 ## 📎 Source
 
 Based on transcript 
+
+
+# ⚙️ Multiprocessing in Python – COMPLETE NOTES (Threads → Processes → Queue → Value)
+
+---
+
+## 📌 Introduction
+
+* Ab tak threads cover ho chuke hain
+
+* Ab focus:
+  👉 **Processes / Multiprocessing**
+
+* Multiprocessing:
+  👉 thoda complex topic hai
+
+---
+
+## 🧠 Core Difference (Thread vs Process)
+
+---
+
+### 🧵 Threads
+
+* Same process me hote hain
+* Memory share karte hain
+
+---
+
+### ⚙️ Processes
+
+* Har process ki:
+  👉 apni memory hoti hai
+
+* Iska matlab:
+  ❌ memory share nahi hoti
+
+---
+
+## ⚠️ Problem in Processes
+
+* Processes ke beech:
+  👉 communication problem hoti hai
+
+👉 kyunki:
+
+* memory shared nahi hai
+
+---
+
+## 🔁 Solution
+
+* Use:
+  👉 **Queue (Q)**
+  👉 Pipes
+
+---
+
+## 📌 Queue Concept
+
+* Queue:
+  👉 ek data structure hai
+
+* Use:
+  👉 processes ke beech data share karne ke liye
+
+---
+
+## 🧠 Important Insight
+
+* Queue:
+  👉 web development me bhi heavily use hoti hai
+
+---
+
+# 🎯 Learning Flow
+
+1. Threads me inefficient case dikhaya
+2. Same code → processes me convert
+3. Phir queue use kiya
+4. Phir value sharing dekhi
+
+---
+
+# 🧪 Part 1: CPU Bound Task (Threading – Inefficient)
+
+---
+
+## 📦 Imports
+
+```python
+import threading
+import time
+```
+
+---
+
+## 🛠️ Function
+
+```python
+def cpu_heavy():
+    print("crunching some numbers")
+    total = 0
+    for i in range(10**7):
+        total += i
+```
+
+---
+
+## 🧠 Concept
+
+* CPU-bound task hai
+* heavy computation
+
+---
+
+## ⏱️ Time Tracking
+
+```python
+start = time.time()
+```
+
+---
+
+## 🧵 Threads Create
+
+```python
+threads = [threading.Thread(target=cpu_heavy) for _ in range(2)]
+```
+
+---
+
+## ▶️ Start Threads
+
+```python
+for t in threads:
+    t.start()
+```
+
+---
+
+## ⏳ Join Threads
+
+```python
+for t in threads:
+    t.join()
+```
+
+---
+
+## 🖨️ Output
+
+```python
+print(f"time taken: {time.time() - start:.2f} seconds")
+```
+
+---
+
+## 🧠 Observation
+
+* Threads:
+  ❌ efficient nahi hain CPU-bound task ke liye
+
+---
+
+## ⚠️ Reason
+
+* GIL (Global Interpreter Lock)
+
+👉 ek time pe ek thread hi execute hota hai
+
+---
+
+# 🚀 Part 2: Same Code → Multiprocessing
+
+---
+
+## 📦 Import
+
+```python
+from multiprocessing import Process
+import time
+```
+
+---
+
+## 🛠️ Same Function
+
+* cpu_heavy same hi rahega
+
+---
+
+## ⚙️ Processes Create
+
+```python
+processes = [Process(target=cpu_heavy) for _ in range(2)]
+```
+
+---
+
+## ▶️ Start
+
+```python
+for p in processes:
+    p.start()
+```
+
+---
+
+## ⏳ Join
+
+```python
+for p in processes:
+    p.join()
+```
+
+---
+
+## ⚠️ Important Fix
+
+```python
+if __name__ == "__main__":
+```
+
+👉 Required hai multiprocessing ke liye
+
+---
+
+## 🧠 Observation
+
+* Execution faster hota hai
+
+---
+
+## 🎯 Reason
+
+* Har process:
+  👉 alag memory
+  👉 alag CPU core use kar sakta hai
+
+---
+
+## 📊 Result
+
+* Threads → slow
+* Processes → faster
+
+---
+
+# ⚠️ Important Insight
+
+* Threads → CPU-bound me fail
+* Processes → CPU-bound me best
+
+---
+
+# 🧪 Part 3: Queue (Process Communication)
+
+---
+
+## ⚠️ Problem
+
+* Processes memory share nahi karte
+
+👉 to data kaise pass karein?
+
+---
+
+## ✅ Solution
+
+* Queue
+
+---
+
+## 📦 Import
+
+```python
+from multiprocessing import Process, Queue
+```
+
+---
+
+## 🧠 Queue Creation
+
+```python
+q = Queue()
+```
+
+---
+
+## 🛠️ Function
+
+```python
+def prepare_chai(q):
+    q.put("Masala chai is ready")
+```
+
+---
+
+## 🧵 Process
+
+```python
+p = Process(target=prepare_chai, args=(q,))
+```
+
+---
+
+## ▶️ Start + Join
+
+```python
+p.start()
+p.join()
+```
+
+---
+
+## 🖨️ Output
+
+```python
+print(q.get())
+```
+
+---
+
+## 🧠 Concept
+
+* Function return nahi karta
+* Data queue me daalta hai
+
+---
+
+## 🔥 Important Insight
+
+* Queue:
+  👉 multiple processes share kar sakte hain
+
+* Data flow:
+  👉 process → queue → another process
+
+---
+
+## 📌 Queue Methods
+
+* put() → add data
+* get() → read data
+* size()
+* empty()
+* full()
+
+---
+
+# 🧪 Part 4: Value (Shared Memory)
+
+---
+
+## 📌 Problem
+
+* Simple data share karna hai (counter etc.)
+
+---
+
+## 📦 Import
+
+```python
+from multiprocessing import Process, Value
+```
+
+---
+
+## 🧠 Create Shared Value
+
+```python
+counter = Value('i', 0)
+```
+
+---
+
+## 🛠️ Function
+
+```python
+def increment(counter):
+    for _ in range(100000):
+        with counter.get_lock():
+            counter.value += 1
+```
+
+---
+
+## 🧠 Concept
+
+* get_lock():
+  👉 automatic lock provide karta hai
+
+---
+
+## ⚙️ Processes
+
+```python
+processes = [Process(target=increment, args=(counter,)) for _ in range(4)]
+```
+
+---
+
+## ▶️ Start + Join
+
+```python
+for p in processes:
+    p.start()
+
+for p in processes:
+    p.join()
+```
+
+---
+
+## 🖨️ Output
+
+```python
+print(counter.value)
+```
+
+---
+
+## 🧠 Observation
+
+* Multiple processes:
+  👉 same value update kar rahe hain
+
+---
+
+## 🔥 Important Insight
+
+* Value:
+  👉 shared memory deta hai
+  👉 lock already built-in hota hai
+
+---
+
+# ⚡ Final Concepts Summary
+
+---
+
+## 🧵 Threading
+
+* shared memory
+* lightweight
+* CPU-bound me slow
+
+---
+
+## ⚙️ Multiprocessing
+
+* separate memory
+* true parallelism
+* CPU-bound me fast
+
+---
+
+## 📦 Queue
+
+* processes ke beech communication
+* data transfer
+
+---
+
+## 🔢 Value
+
+* shared variable
+* safe updates (lock ke saath)
+
+---
+
+# 🧠 Real World Use Case
+
+* Batch image processing
+* AI training scripts
+* parallel workers
+
+---
+
+## 🎯 Final Idea
+
+* CPU-bound → multiprocessing
+* IO-bound → threading
+* Data sharing → queue / value
+
+---
+
+## 📎 Source
+
+Based on transcript 
