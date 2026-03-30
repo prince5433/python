@@ -14,5 +14,6 @@ async def main():
    async with aiohttp.ClientSession() as session:
       tasks = [fetch_url(session, url) for url in urls]
       await asyncio.gather(*tasks)
+      #* tasks basically means we are unpacking the list of tasks and passing them as separate arguments to gather()
 
 asyncio.run(main())
